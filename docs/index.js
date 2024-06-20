@@ -111,6 +111,47 @@ function onChange(event) {
   recalculate();
 }
 
+const savedOffers = [];
+function saveOffer() {
+  const inputs = getInputsState();
+  if (!inputs) {
+    return;
+  }
+  savedOffers.push({
+    name: `הצעה #${savedOffers.length + 1}`,
+    inputs,
+    results: totalFees(inputs),
+  });
+  renderSavedOffers(savedOffers);
+}
+
+function createTr(fields) {
+  const tr = document.createElement('tr');
+  for (const [key, value] of Object.entries(fields)) {
+    const td = document.createElement('td');
+    td.className = key;
+    td.textContent = value;
+    tr.appendChild(td);
+  }
+  return tr;
+}
+
+function renderSavedOffers(savedOffers) {
+  const tbody = document.getElementById('saved-offers');
+  tbody.innerHTML = '';
+  tbody.append(
+    ...savedOffers.map((offer) =>
+      createTr({
+        name: offer.name,
+        deposit: `${offer.inputs.percentageOfDeposit}%`,
+        accumulation: `${offer.inputs.percentageOfAccumulation}%`,
+        loss: formatSum(offer.results.loss),
+        relativeLoss: formatPercentage(offer.results.relativeLoss),
+      }),
+    ),
+  );
+}
+
 function init() {
   const searchParams = new URLSearchParams(document.location.search);
   for (const input of document.querySelectorAll('input')) {
@@ -121,4 +162,5 @@ function init() {
     }
   }
   recalculate();
+  renderSavedOffers([]);
 }
