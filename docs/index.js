@@ -40,7 +40,9 @@ function totalFees({
 
 function roundFraction(num, digits) {
   const factor = 10 ** digits;
-  return (Math.round(num * factor) / factor).toFixed(digits);
+  return (Math.round(num * factor) / factor)
+    .toFixed(digits)
+    .replace(/\.0+$/, '');
 }
 
 function formatSum(sum) {
