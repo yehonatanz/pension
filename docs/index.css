@@ -40,3 +40,12 @@ form {
 #per-year-output-container .fees {
     color: red;
 }
+
+#disclaimer {
+    position: absolute;
+    bottom: 2px;
+    text-align: center;
+    width: 100%;
+    font-size: xx-small;
+    opacity: 0.5;
+}
