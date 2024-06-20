@@ -1,94 +1,40 @@
 <html lang="he" dir="rtl">
 <head>
-  <title>סימולטור פנסיה</title>
-  <script>
-    function totalFees({
-                         percentageOfDeposit,
-                         percentageOfAccumulation,
-                         retirementAge = 67,
-                         monthlyDeposit,
-                         currentAcc,
-                         yearlyGrowthPercentage
-                       }) {
-      const yearlyGrowthRate = 1 + yearlyGrowthPercentage / 100;
-      const depositRate = 1 - percentageOfDeposit / 100;
-      const accRate = 1 - percentageOfAccumulation / 100;
-      let accWithoutFees = currentAcc;
-      let accWithFees = currentAcc;
-      const yearlyDeposit = monthlyDeposit * 12;
-
-      for (let i = 29; i < retirementAge; i++) {
-        accWithoutFees = accWithoutFees * yearlyGrowthRate + yearlyDeposit;
-        accWithFees = accWithFees * yearlyGrowthRate * accRate + yearlyDeposit * depositRate;
-      }
-      let fees = accWithoutFees - accWithFees;
-      return {
-        accWithFees,
-        accWithoutFees,
-        fees,
-        relativeFess: fees / accWithoutFees
-      };
-    }
-
-    function recalculate() {
-      const params = Object.fromEntries([...document.querySelectorAll("input").values()].map(input => [input.name, input.value]));
-      if (Object.values(params).some(value => !value)) {
-        return;
-      }
-      const output = document.getElementById("output");
-      output.textContent = `${Math.floor(totalFees(params).fees / 1000)}K`;
-    }
-
-    function onChange(event) {
-      const url = new URL(window.location);
-      url.searchParams.set(event.target.name, event.target.value);
-      history.pushState(null, "", url);
-      recalculate();
-    }
-
-    function init() {
-      const searchParams = new URLSearchParams(document.location.search);
-      document.querySelectorAll("input").forEach(input => {
-        input.addEventListener("change", onChange);
-        input.addEventListener("keyup", onChange);
-        if (searchParams.has(input.name)) {
-          input.value = searchParams.get(input.name);
-        }
-      });
-      recalculate();
-    }
-  </script>
+    <title>סימולטור פנסיה</title>
+    <script src="./index.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="./index.css"/>
 </head>
 <body onload="init()">
-<form>
-  <div><label>
-    אחוז עמלת הפקדה (0-100)
-    <input type="number" name="percentageOfDeposit" value="0.8" />
-  </label></div>
-  <div><label>
-    אחוז עמלת צבירה (0-100)
-    <input type="number" name="percentageOfAccumulation" value="0.12" />
-  </label></div>
-  <div><label>
-    גיל פרישה
-    <input type="number" name="retirementAge" value="67" />
-  </label></div>
-  <div><label>
-    הפקדה חודשית (שקלים)
-    <input type="number" name="monthlyDeposit" />
-  </label></div>
-  <div><label>
-    חיסכון נוכחי (שקלים)
-    <input type="number" name="currentAcc" />
-  </label></div>
-  <div><label>
-    אחוז תשואה שנתית (0-100)
-    <input type="number" name="yearlyGrowthPercentage" value="6" />
-  </label></div>
-</form>
-<div>
-  אתה צפוי לשלם להם <span id="output">X</span> שקלים לאורך החיים
+<div id="app">
+    <form>
+        <label for="percentageOfDeposit">
+            אחוז עמלת הפקדה (0-100)
+        </label>
+        <input id="percentageOfDeposit" type="number" value="0.8"/>
+        <label for="percentageOfAccumulation">
+            אחוז עמלת צבירה (0-100)
+        </label>
+        <input id="percentageOfAccumulation" type="number" value="0.12"/>
+        <label for="retirementAge">
+            גיל פרישה
+        </label>
+        <input id="retirementAge" type="number" value="67"/>
+        <label for="monthlyDeposit">
+            הפקדה חודשית (שקלים)
+        </label>
+        <input id="monthlyDeposit" type="number"/>
+        <label for="currentAcc">
+            חיסכון נוכחי (שקלים)
+        </label>
+        <input id="currentAcc" type="number"/>
+        <label for="yearlyGrowthPercentage">
+            אחוז תשואה שנתית (0-100)
+        </label>
+        <input id="yearlyGrowthPercentage" type="number" value="6"/>
+    </form>
+    <div id="output-container">
+        אתה צפוי לשלם להם <span id="output">X</span> שקלים לאורך החיים
+    </div>
 </div>
-
 </body>
 </html>

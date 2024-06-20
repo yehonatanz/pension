@@ -1,0 +1,17 @@
+#app {
+    width: fit-content;
+    margin: auto;
+}
+form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 50em;
+}
+#output-container {
+    text-align: center;
+}
+#output {
+    /** bold */
+    font-weight: bold;
+    color: green;
+}
