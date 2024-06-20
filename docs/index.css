@@ -1,9 +1,22 @@
 #app {
     width: fit-content;
     margin: auto;
+    display: grid;
+    grid-template:
+        "form   output" min-content
+        "saved  output" 1fr / 1fr 1fr;;
+    grid-column-gap: 1em;
+}
+
+#saved-offers-container {
+    grid-area: saved;
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: auto;
 }
 
 form {
+    grid-area: form;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-auto-rows: max-content;
@@ -11,29 +24,11 @@ form {
     grid-row-gap: var(--gap-between-inputs);
     --form-width: 50em;
     width: var(--form-width);
-}
-
-@media (min-width: 1200px) {
-    #app {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-column-gap: 1em;
-    }
-}
-
-@media (max-width: 1200px) {
-    #app, input, #per-year-output-container {
-        --global-font-size: xx-large;
-        font-size: var(--global-font-size);
-    }
-
-    form {
-        --form-width: 100vw;
-        --gap-between-inputs: 6px;
-    }
+    height: fit-content;
 }
 
 #output {
+    grid-area: output;
     text-align: center;
 
     .calculated-output {
@@ -70,4 +65,20 @@ form {
     width: 100%;
     font-size: xx-small;
     opacity: 0.5;
+}
+
+@media (max-width: 1200px) {
+    #app {
+        display: block;
+    }
+
+    #app, input, #per-year-output-container {
+        --global-font-size: xx-large;
+        font-size: var(--global-font-size);
+    }
+
+    form {
+        --form-width: 100vw;
+        --gap-between-inputs: 6px;
+    }
 }
