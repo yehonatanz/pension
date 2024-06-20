@@ -74,14 +74,12 @@ function displayResults({ accWithoutFees, accWithFees, perYear }) {
 }
 
 function recalculate() {
-  const params = Object.fromEntries(
-    [...document.querySelectorAll('input').values()].map((input) => [
-      input.id,
-      input.value,
-    ]),
-  );
-  if (Object.values(params).some((value) => !value)) {
-    return;
+  const params = {};
+  for (const input of document.querySelectorAll('input')) {
+    if (!input.value) {
+      return;
+    }
+    params[input.id] = Number.parseFloat(input.value);
   }
   displayResults(totalFees(params));
 }
