@@ -117,6 +117,13 @@ function saveOffer() {
   if (!inputs) {
     return;
   }
+  if (
+    savedOffers.some(
+      (offer) => JSON.stringify(offer.inputs) === JSON.stringify(inputs),
+    )
+  ) {
+    return;
+  }
   savedOffers.push({
     name: `הצעה #${savedOffers.length + 1}`,
     inputs,
