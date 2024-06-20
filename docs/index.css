@@ -6,13 +6,22 @@
         "form   output" min-content
         "saved  output" 1fr / 1fr 1fr;;
     grid-column-gap: 1em;
+
+    tbody {
+        font-family: Courier, monospace;
+    }
 }
 
 #saved-offers-container {
+    text-align: justify;
     grid-area: saved;
     width: 100%;
     margin-top: 0;
     margin-bottom: auto;
+
+    th:first-child {
+        min-width: 6em ;
+    }
 }
 
 form {
@@ -41,7 +50,6 @@ form {
         margin: auto;
 
         #per-year-output {
-            font-family: Courier, monospace;
 
             th, td {
                 padding: 1px .5em;
