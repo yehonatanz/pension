@@ -85,6 +85,7 @@ function displayResults({
     perYearOutput.appendChild(row);
   }
 }
+
 function getInputsState() {
   const inputs = {};
   for (const input of document.querySelectorAll('input')) {
@@ -96,6 +97,7 @@ function getInputsState() {
   }
   return inputs;
 }
+
 function recalculate() {
   const inputs = getInputsState();
   if (!inputs) {
@@ -112,6 +114,7 @@ function onChange(event) {
 }
 
 const savedOffers = [];
+
 function saveOffer() {
   const inputs = getInputsState();
   if (!inputs) {
@@ -155,6 +158,14 @@ function renderSavedOffers(savedOffers) {
         accumulation: `${offer.inputs.percentageOfAccumulation}%`,
         loss: formatSum(offer.results.loss),
         relativeLoss: formatPercentage(offer.results.relativeLoss),
+      });
+      const tdName = tr.children[0];
+      tdName.addEventListener('dblclick', () => {
+        const newName = prompt('שנה את שם ההצעה', tdName.textContent);
+        if (newName) {
+          tdName.textContent = newName;
+          offer.name = newName;
+        }
       });
       if (offer.results.loss === minLoss) {
         tr.classList.add('best');
