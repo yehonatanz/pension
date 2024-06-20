@@ -35,7 +35,20 @@
             אחוז תשואה שנתית (0-100)
         </label>
         <input id="yearlyGrowthPercentage" type="number" value="6"/>
+        <button type="button" onclick="saveOffer()">שמור הצעה להשוואה!</button>
     </form>
+    <table id="saved-offers-container">
+        <thead>
+        <tr>
+        <th>שם</th>
+        <th>הפקדה</th>
+        <th>צבירה</th>
+        <th>הפסד [₪]</th>
+        <th>הפסד [%]</th>
+        </tr>
+        </thead>
+    <tbody id="saved-offers"></tbody>
+    </table>
     <div id="output">
         <div>
             ללא עמלות היו יכולים לך
