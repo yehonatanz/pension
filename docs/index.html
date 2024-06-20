@@ -37,7 +37,13 @@
         <input id="yearlyGrowthPercentage" type="number" value="6"/>
     </form>
     <div id="output">
-        אתה צפוי לשלם להם <span id="output-total-sum">X</span> שקלים לאורך החיים
+        אתה צפוי לשלם להם
+        <span class="calculated-output" id="output-total-fees">X</span>
+        שקלים לאורך החיים, שהם
+        <span class="calculated-output" id="output-total-fees-percentage">Y</span>
+         מהסכום הכולל התיאורטי של
+        <span class="calculated-output" id="output-total-without-fees">Z</span>
+         אם לא היו עמלות
         <table id="per-year-output-container">
             <thead>
             <tr>

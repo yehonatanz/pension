@@ -1,3 +1,4 @@
+
 function totalFees({
   percentageOfDeposit,
   percentageOfAccumulation,
@@ -14,44 +15,48 @@ function totalFees({
   let accWithFees = currentAcc;
   const yearlyDeposit = monthlyDeposit * 12;
   const perYear = [];
+  let totalFees = 0;
 
   for (let age = currentAge; age < retirementAge; age++) {
     accWithoutFees = accWithoutFees * yearlyGrowthRate + yearlyDeposit;
     const fees = accWithFees * accRate + yearlyDeposit * depositRate;
     accWithFees = accWithFees * yearlyGrowthRate + yearlyDeposit - fees;
+    totalFees += fees;
     perYear.push({
       age,
       acc: accWithFees,
       fees,
     });
   }
-  const fees = accWithoutFees - accWithFees;
   return {
     accWithFees,
     accWithoutFees,
-    fees,
-    relativeFess: fees / accWithoutFees,
+    fees: totalFees,
+    relativeFess: totalFees / accWithoutFees,
     perYear,
   };
 }
 
-function formatSum(sum) {
-  return `${(sum / 1000).toFixed(1)}K`;
+function roundFraction(num, digits) {
+    const factor = 10 ** digits;
+    return (Math.round(num * factor) / factor).toFixed(digits);
 }
 
-function recalculate() {
-  const params = Object.fromEntries(
-    [...document.querySelectorAll('input').values()].map((input) => [
-      input.id,
-      input.value,
-    ]),
-  );
-  if (Object.values(params).some((value) => !value)) {
-    return;
+function formatSum(sum) {
+  if (sum > 1_000_000) {
+    return `₪${roundFraction(sum / 1_000_000, 1)}M`;
+  } else if (sum > 1_000) {
+    return `₪${roundFraction(sum / 1_000, 1)}K`;
+  } else {
+    return `₪${roundFraction(sum, 1)}`;
   }
-  const output = document.getElementById('output-total-sum');
-  const { fees, perYear } = totalFees(params);
-  output.textContent = formatSum(fees);
+}
+
+function displayResults({ fees, accWithoutFees, relativeFess, perYear }) {
+  document.getElementById('output-total-fees').textContent = formatSum(fees);
+  document.getElementById('output-total-fees-percentage').textContent =
+    `${roundFraction(relativeFess * 100, 1)}%`;
+  document.getElementById('output-total-without-fees').textContent = formatSum(accWithoutFees);
   const perYearOutput = document.getElementById('per-year-output');
   perYearOutput.innerHTML = '';
   for (const year of perYear) {
@@ -64,6 +69,19 @@ function recalculate() {
     }
     perYearOutput.appendChild(row);
   }
+}
+
+function recalculate() {
+  const params = Object.fromEntries(
+    [...document.querySelectorAll('input').values()].map((input) => [
+      input.id,
+      input.value,
+    ]),
+  );
+  if (Object.values(params).some((value) => !value)) {
+    return;
+  }
+  displayResults(totalFees(params));
 }
 
 function onChange(event) {
