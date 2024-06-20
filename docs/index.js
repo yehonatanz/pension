@@ -1,4 +1,3 @@
-
 function totalFees({
   percentageOfDeposit,
   percentageOfAccumulation,
@@ -32,31 +31,34 @@ function totalFees({
     accWithFees,
     accWithoutFees,
     fees: totalFees,
-    relativeFess: totalFees / accWithoutFees,
     perYear,
   };
 }
 
 function roundFraction(num, digits) {
-    const factor = 10 ** digits;
-    return (Math.round(num * factor) / factor).toFixed(digits);
+  const factor = 10 ** digits;
+  return (Math.round(num * factor) / factor).toFixed(digits);
 }
 
 function formatSum(sum) {
   if (sum > 1_000_000) {
     return `₪${roundFraction(sum / 1_000_000, 1)}M`;
-  } else if (sum > 1_000) {
-    return `₪${roundFraction(sum / 1_000, 1)}K`;
-  } else {
-    return `₪${roundFraction(sum, 1)}`;
   }
+  if (sum > 1_000) {
+    return `₪${roundFraction(sum / 1_000, 1)}K`;
+  }
+  return `₪${roundFraction(sum, 1)}`;
 }
 
-function displayResults({ fees, accWithoutFees, relativeFess, perYear }) {
-  document.getElementById('output-total-fees').textContent = formatSum(fees);
-  document.getElementById('output-total-fees-percentage').textContent =
-    `${roundFraction(relativeFess * 100, 1)}%`;
-  document.getElementById('output-total-without-fees').textContent = formatSum(accWithoutFees);
+function displayResults({ accWithoutFees, accWithFees, perYear }) {
+  document.getElementById('output-total').textContent = formatSum(accWithFees);
+  document.getElementById('output-total-without-fees').textContent =
+    formatSum(accWithoutFees);
+  const diffDueToFees = accWithoutFees - accWithFees;
+  document.getElementById('output-diff-due-to-fees').textContent =
+    formatSum(diffDueToFees);
+  document.getElementById('output-diff-due-to-fees-percentage').textContent =
+    `${roundFraction((100 * diffDueToFees) / accWithoutFees, 1)}%`;
   const perYearOutput = document.getElementById('per-year-output');
   perYearOutput.innerHTML = '';
   for (const year of perYear) {
