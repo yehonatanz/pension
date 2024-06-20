@@ -171,7 +171,7 @@ function renderSavedOffers(savedOffers) {
     ...offersAndResults.map(({ results }) => results.loss),
   );
   tbody.append(
-    ...offersAndResults.map(({ offer, results }) => {
+    ...offersAndResults.map(({ offer, results }, index) => {
       const tr = createTr({
         name: offer.name,
         deposit: `${offer.fees.percentageOfDeposit}%`,
@@ -180,13 +180,19 @@ function renderSavedOffers(savedOffers) {
         relativeLoss: formatPercentage(results.relativeLoss),
       });
       const tdName = tr.children[0];
-      tdName.addEventListener('dblclick', () => {
-        const newName = prompt('שנה את שם ההצעה', tdName.textContent);
+      tr.addEventListener('dblclick', () => {
+        const newName = prompt(
+          'שם חדש להצעה (ריק כדי למחוק)',
+          tdName.textContent,
+        );
         if (newName) {
           tdName.textContent = newName;
           offer.name = newName;
-          persistSavedOffers(savedOffers);
+        } else {
+          tr.remove();
+          savedOffers.splice(index, 1);
         }
+        persistSavedOffers(savedOffers);
       });
       if (results.loss === minLoss) {
         tr.classList.add('best');
