@@ -83,16 +83,23 @@ function displayResults({
     perYearOutput.appendChild(row);
   }
 }
-
-function recalculate() {
-  const params = {};
+function getInputsState() {
+  const inputs = {};
   for (const input of document.querySelectorAll('input')) {
     if (!input.value) {
-      return;
+      return null;
     }
-    params[input.id] = Number.parseFloat(input.value);
+    inputs[input.id] =
+      input.type === 'number' ? Number.parseFloat(input.value) : input.value;
   }
-  displayResults(totalFees(params));
+  return inputs;
+}
+function recalculate() {
+  const inputs = getInputsState();
+  if (!inputs) {
+    return;
+  }
+  displayResults(totalFees(inputs));
 }
 
 function onChange(event) {
