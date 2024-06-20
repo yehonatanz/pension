@@ -27,10 +27,13 @@ function totalFees({
       fees,
     });
   }
+  const loss = accWithoutFees - accWithFees;
   return {
     accWithFees,
     accWithoutFees,
     fees: totalFees,
+    loss,
+    relativeLoss: loss / accWithoutFees,
     perYear,
   };
 }
@@ -50,15 +53,23 @@ function formatSum(sum) {
   return `₪${roundFraction(sum, 1)}`;
 }
 
-function displayResults({ accWithoutFees, accWithFees, perYear }) {
+function formatPercentage(percentage) {
+  return `${roundFraction(percentage * 100, 1)}%`;
+}
+
+function displayResults({
+  accWithoutFees,
+  accWithFees,
+  loss,
+  relativeLoss,
+  perYear,
+}) {
   document.getElementById('output-total').textContent = formatSum(accWithFees);
   document.getElementById('output-total-without-fees').textContent =
     formatSum(accWithoutFees);
-  const diffDueToFees = accWithoutFees - accWithFees;
-  document.getElementById('output-diff-due-to-fees').textContent =
-    formatSum(diffDueToFees);
-  document.getElementById('output-diff-due-to-fees-percentage').textContent =
-    `${roundFraction((100 * diffDueToFees) / accWithoutFees, 1)}%`;
+  document.getElementById('output-loss').textContent = formatSum(loss);
+  document.getElementById('output-relative-loss').textContent =
+    formatPercentage(relativeLoss);
   const perYearOutput = document.getElementById('per-year-output');
   perYearOutput.innerHTML = '';
   for (const year of perYear) {
