@@ -18,9 +18,27 @@
     width: 100%;
     margin-top: 0;
     margin-bottom: auto;
+    border-collapse: collapse;
 
     th:first-child {
         min-width: 6em ;
+    }
+
+    .loss, .relativeLoss {
+        color: red;
+    }
+
+    .best{
+        border: 1px dotted black;
+        .name {
+        font-weight: bold;
+        position: relative;
+        &:after {
+            content: '★';
+            font-weight: bold;
+            position: absolute;
+            right: -1em;
+        }}
     }
 }
 
