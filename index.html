@@ -15,6 +15,10 @@
             אחוז עמלת צבירה (0-100)
         </label>
         <input id="percentageOfAccumulation" type="number" value="0.12"/>
+        <label for="currentAge">
+            גיל נוכחי
+        </label>
+        <input id="currentAge" type="number" value="29"/>
         <label for="retirementAge">
             גיל פרישה
         </label>
@@ -32,8 +36,19 @@
         </label>
         <input id="yearlyGrowthPercentage" type="number" value="6"/>
     </form>
-    <div id="output-container">
-        אתה צפוי לשלם להם <span id="output">X</span> שקלים לאורך החיים
+    <div id="output">
+        אתה צפוי לשלם להם <span id="output-total-sum">X</span> שקלים לאורך החיים
+        <table id="per-year-output-container">
+            <thead>
+            <tr>
+                <th>גיל</th>
+                <th>צבירה</th>
+                <th>עמלה</th>
+            </tr>
+            </thead>
+            <tbody id="per-year-output">
+            </tbody>
+        </table>
     </div>
 </div>
 </body>

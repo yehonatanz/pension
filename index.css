@@ -2,16 +2,41 @@
     width: fit-content;
     margin: auto;
 }
+
+@media (min-width: 1200px) {
+    #app {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-column-gap: 1em;
+    }
+}
+
 form {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    grid-auto-rows: max-content;
+    grid-row-gap: 2px;
     width: 50em;
 }
-#output-container {
+
+#output {
     text-align: center;
 }
-#output {
-    /** bold */
+
+#output-total-sum {
     font-weight: bold;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 0 0.25em;
+}
+
+#per-year-output-container {
+    margin: auto;
+}
+
+#per-year-output-container .acc {
     color: green;
+}
+
+#per-year-output-container .fees {
+    color: red;
 }
