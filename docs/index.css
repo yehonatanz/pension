@@ -35,32 +35,32 @@ form {
 
 #output {
     text-align: center;
-}
 
-.calculated-output {
-    font-weight: bold;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    padding: 0 0.25em;
-}
-
-#per-year-output-container {
-    margin: auto;
-}
-
-#per-year-output {
-    font-family: Courier, monospace;
-
-    th, td {
-        padding: 1px .5em;
+    .calculated-output {
+        font-weight: bold;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        padding: 0 0.25em;
     }
-}
 
-#per-year-output-container .acc {
-    color: green;
-}
+    #per-year-output-container {
+        margin: auto;
 
-#per-year-output-container .fees {
-    color: red;
+        #per-year-output {
+            font-family: Courier, monospace;
+
+            th, td {
+                padding: 1px .5em;
+            }
+
+            .acc {
+                color: green;
+            }
+
+            .fees {
+                color: red;
+            }
+        }
+    }
 }
 
 #disclaimer {
