@@ -111,6 +111,7 @@ function onChange(event) {
   url.searchParams.set(event.target.id, event.target.value);
   history.pushState(null, '', url);
   recalculate();
+  renderSavedOffers(savedOffers);
 }
 
 const savedOffers = [];
@@ -120,17 +121,20 @@ function saveOffer() {
   if (!inputs) {
     return;
   }
+  const fees = {
+    percentageOfAccumulation: inputs.percentageOfAccumulation,
+    percentageOfDeposit: inputs.percentageOfDeposit,
+  };
   if (
     savedOffers.some(
-      (offer) => JSON.stringify(offer.inputs) === JSON.stringify(inputs),
+      (offer) => JSON.stringify(offer.fees) === JSON.stringify(fees),
     )
   ) {
     return;
   }
   savedOffers.push({
     name: `הצעה #${savedOffers.length + 1}`,
-    inputs,
-    results: totalFees(inputs),
+    fees,
   });
   renderSavedOffers(savedOffers);
 }
@@ -149,15 +153,22 @@ function createTr(fields) {
 function renderSavedOffers(savedOffers) {
   const tbody = document.getElementById('saved-offers');
   tbody.innerHTML = '';
-  const minLoss = Math.min(...savedOffers.map((offer) => offer.results.loss));
+  const inputs = getInputsState();
+  const offersAndResults = savedOffers.map((offer) => ({
+    offer,
+    results: totalFees({ ...inputs, ...offer.fees }),
+  }));
+  const minLoss = Math.min(
+    ...offersAndResults.map(({ results }) => results.loss),
+  );
   tbody.append(
-    ...savedOffers.map((offer) => {
+    ...offersAndResults.map(({ offer, results }) => {
       const tr = createTr({
         name: offer.name,
-        deposit: `${offer.inputs.percentageOfDeposit}%`,
-        accumulation: `${offer.inputs.percentageOfAccumulation}%`,
-        loss: formatSum(offer.results.loss),
-        relativeLoss: formatPercentage(offer.results.relativeLoss),
+        deposit: `${offer.fees.percentageOfDeposit}%`,
+        accumulation: `${offer.fees.percentageOfAccumulation}%`,
+        loss: formatSum(results.loss),
+        relativeLoss: formatPercentage(results.relativeLoss),
       });
       const tdName = tr.children[0];
       tdName.addEventListener('dblclick', () => {
@@ -167,7 +178,7 @@ function renderSavedOffers(savedOffers) {
           offer.name = newName;
         }
       });
-      if (offer.results.loss === minLoss) {
+      if (results.loss === minLoss) {
         tr.classList.add('best');
       }
       return tr;
