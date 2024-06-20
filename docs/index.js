@@ -16,7 +16,7 @@ function totalFees({
   const perYear = [];
   let totalFees = 0;
 
-  for (let age = currentAge; age < retirementAge; age++) {
+  for (let age = currentAge + 1; age <= retirementAge; age++) {
     accWithoutFees = accWithoutFees * yearlyGrowthRate + yearlyDeposit;
     const fees = accWithFees * accRate + yearlyDeposit * depositRate;
     accWithFees = accWithFees * yearlyGrowthRate + yearlyDeposit - fees;
