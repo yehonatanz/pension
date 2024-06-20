@@ -2,6 +2,7 @@
     width: fit-content;
     margin: auto;
 }
+
 form {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -19,11 +20,13 @@ form {
         grid-column-gap: 1em;
     }
 }
+
 @media (max-width: 1200px) {
     #app, input, #per-year-output-container {
         --global-font-size: xx-large;
         font-size: var(--global-font-size);
     }
+
     form {
         --form-width: 100vw;
         --gap-between-inputs: 6px;
@@ -42,6 +45,14 @@ form {
 
 #per-year-output-container {
     margin: auto;
+}
+
+#per-year-output {
+    font-family: Courier, monospace;
+
+    th, td {
+        padding: 1px .5em;
+    }
 }
 
 #per-year-output-container .acc {
