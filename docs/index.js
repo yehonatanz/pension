@@ -146,16 +146,21 @@ function createTr(fields) {
 function renderSavedOffers(savedOffers) {
   const tbody = document.getElementById('saved-offers');
   tbody.innerHTML = '';
+  const minLoss = Math.min(...savedOffers.map((offer) => offer.results.loss));
   tbody.append(
-    ...savedOffers.map((offer) =>
-      createTr({
+    ...savedOffers.map((offer) => {
+      const tr = createTr({
         name: offer.name,
         deposit: `${offer.inputs.percentageOfDeposit}%`,
         accumulation: `${offer.inputs.percentageOfAccumulation}%`,
         loss: formatSum(offer.results.loss),
         relativeLoss: formatPercentage(offer.results.relativeLoss),
-      }),
-    ),
+      });
+      if (offer.results.loss === minLoss) {
+        tr.classList.add('best');
+      }
+      return tr;
+    }),
   );
 }
 
