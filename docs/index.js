@@ -114,7 +114,15 @@ function onChange(event) {
   renderSavedOffers(savedOffers);
 }
 
-const savedOffers = [];
+function persistSavedOffers(savedOffers) {
+  localStorage.setItem('savedOffers', JSON.stringify(savedOffers));
+}
+
+function loadSavedOffers() {
+  return JSON.parse(localStorage.getItem('savedOffers')) || [];
+}
+
+const savedOffers = loadSavedOffers();
 
 function saveOffer() {
   const inputs = getInputsState();
@@ -136,6 +144,7 @@ function saveOffer() {
     name: `הצעה #${savedOffers.length + 1}`,
     fees,
   });
+  persistSavedOffers(savedOffers);
   renderSavedOffers(savedOffers);
 }
 
@@ -176,6 +185,7 @@ function renderSavedOffers(savedOffers) {
         if (newName) {
           tdName.textContent = newName;
           offer.name = newName;
+          persistSavedOffers(savedOffers);
         }
       });
       if (results.loss === minLoss) {
@@ -196,5 +206,5 @@ function init() {
     }
   }
   recalculate();
-  renderSavedOffers([]);
+  renderSavedOffers(savedOffers);
 }
