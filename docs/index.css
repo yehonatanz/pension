@@ -97,11 +97,15 @@ form {
 
 #disclaimer {
     position: absolute;
-    bottom: 2px;
+    bottom: 0;
     text-align: center;
     width: 100%;
     font-size: xx-small;
     opacity: 0.5;
+}
+
+body {
+    position: relative;
 }
 
 @media (max-width: 1200px) {
