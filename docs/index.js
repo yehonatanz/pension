@@ -160,6 +160,12 @@ function createTr(fields) {
 }
 
 function renderSavedOffers(savedOffers) {
+  const table = document.getElementById('saved-offers-container');
+  if (!savedOffers.length) {
+    table.hidden = true;
+    return;
+  }
+  table.hidden = false;
   const tbody = document.getElementById('saved-offers');
   tbody.innerHTML = '';
   const inputs = getInputsState();
@@ -195,6 +201,7 @@ function renderSavedOffers(savedOffers) {
           tr.remove();
           savedOffers.splice(index, 1);
         }
+        renderSavedOffers(savedOffers);
         persistSavedOffers(savedOffers);
       };
       tr.addEventListener('dblclick', renameOrDelete);
