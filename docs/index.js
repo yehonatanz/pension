@@ -185,6 +185,9 @@ function renderSavedOffers(savedOffers) {
           'שם חדש להצעה (ריק כדי למחוק)',
           tdName.textContent,
         );
+        if (newName === null) {
+          return;
+        }
         if (newName) {
           tdName.textContent = newName;
           offer.name = newName;
