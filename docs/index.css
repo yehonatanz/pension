@@ -98,7 +98,11 @@ form {
         display: block;
     }
 
-    #app, input, #per-year-output-container {
+    #saved-offers-container {
+        margin: 1em 0;
+    }
+
+    #app, input, #per-year-output-container, #saved-offers-container {
         --global-font-size: xx-large;
         font-size: var(--global-font-size);
     }
