@@ -180,7 +180,7 @@ function renderSavedOffers(savedOffers) {
         relativeLoss: formatPercentage(results.relativeLoss),
       });
       const tdName = tr.children[0];
-      tr.addEventListener('dblclick', () => {
+      const renameOrDelete = () => {
         const newName = prompt(
           'שם חדש להצעה (ריק כדי למחוק)',
           tdName.textContent,
@@ -196,13 +196,32 @@ function renderSavedOffers(savedOffers) {
           savedOffers.splice(index, 1);
         }
         persistSavedOffers(savedOffers);
-      });
+      };
+      tr.addEventListener('dblclick', renameOrDelete);
+      onLongPress(tr, renameOrDelete);
       if (results.loss === minLoss) {
         tr.classList.add('best');
       }
       return tr;
     }),
   );
+}
+function onLongPress(element, callback) {
+  let timer;
+
+  element.addEventListener('touchstart', () => {
+    timer = setTimeout(() => {
+      timer = null;
+      callback();
+    }, 500);
+  });
+
+  function cancel() {
+    clearTimeout(timer);
+  }
+
+  element.addEventListener('touchend', cancel);
+  element.addEventListener('touchmove', cancel);
 }
 
 function init() {
