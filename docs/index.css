@@ -44,14 +44,20 @@
 
 form {
     grid-area: form;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-auto-rows: max-content;
-    --gap-between-inputs: 2px;
-    grid-row-gap: var(--gap-between-inputs);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     --form-width: 50em;
     width: var(--form-width);
     height: fit-content;
+    label, input {
+        width: 50%;
+        --gap-between-inputs: 2px;
+        margin-bottom: var(--gap-between-inputs);
+    }
+    button {
+        width: 100%;
+    }
 }
 
 #output {
