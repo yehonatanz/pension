@@ -21,24 +21,27 @@
     border-collapse: collapse;
 
     th:first-child {
-        min-width: 6em ;
+        min-width: 6em;
     }
 
     .loss, .relativeLoss {
         color: red;
     }
 
-    .best{
+    .best {
         border: 1px dotted black;
+
         .name {
-        font-weight: bold;
-        position: relative;
-        &:after {
-            content: '★';
             font-weight: bold;
-            position: absolute;
-            right: -1em;
-        }}
+            position: relative;
+
+            &:after {
+                content: '★';
+                font-weight: bold;
+                position: absolute;
+                right: -1em;
+            }
+        }
     }
 }
 
@@ -50,11 +53,13 @@ form {
     --form-width: 50em;
     width: var(--form-width);
     height: fit-content;
+
     label, input {
         width: 50%;
         --gap-between-inputs: 2px;
         margin-bottom: var(--gap-between-inputs);
     }
+
     button {
         width: 100%;
     }
