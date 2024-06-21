@@ -165,10 +165,10 @@ function renderSavedOffers(savedOffers) {
   const inputs = getInputsState();
   const offersAndResults = savedOffers.map((offer) => ({
     offer,
-    results: totalFees({ ...inputs, ...offer.fees }),
+    results: inputs && totalFees({ ...inputs, ...offer.fees }),
   }));
   const minLoss = Math.min(
-    ...offersAndResults.map(({ results }) => results.loss),
+    ...offersAndResults.map(({ results }) => results?.loss),
   );
   tbody.append(
     ...offersAndResults.map(({ offer, results }, index) => {
@@ -176,8 +176,8 @@ function renderSavedOffers(savedOffers) {
         name: offer.name,
         deposit: `${offer.fees.percentageOfDeposit}%`,
         accumulation: `${offer.fees.percentageOfAccumulation}%`,
-        loss: formatSum(results.loss),
-        relativeLoss: formatPercentage(results.relativeLoss),
+        loss: results ? formatSum(results.loss) : '',
+        relativeLoss: results ? formatPercentage(results.relativeLoss) : '',
       });
       const tdName = tr.children[0];
       const renameOrDelete = () => {
@@ -199,7 +199,7 @@ function renderSavedOffers(savedOffers) {
       };
       tr.addEventListener('dblclick', renameOrDelete);
       onLongPress(tr, renameOrDelete);
-      if (results.loss === minLoss) {
+      if (results && results.loss === minLoss) {
         tr.classList.add('best');
       }
       return tr;
